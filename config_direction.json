@@ -1,22 +1,25 @@
 {
+  "config": [
+    {
   "stateMachineName": "Microwave",
   "initialState": "Door Close",
   "events": [
     {
       "eventName": "Microwave Running",
-      "type": "continuous"
+      "eventType": "continuous"
     },
     {
       "eventName": "Chime",
-      "type": "discrete"
+      "eventType": "discrete",
+      "eventDelay": 3
     },
     {
       "eventName": "Door Open",
-      "type": "discrete"
+      "eventType": "discrete"
     },
     {
       "eventName": "Door Close",
-      "type": "discrete"
+      "eventType": "discrete"
     }
   ],
   "states": [
@@ -77,6 +80,87 @@
           "event": "Door Open",
           "nextState": "Door Ajar",
           "direction": "NW"
+        }
+      ]
+    }
+  ]
+},
+    {
+      "stateMachineName": "Type-Drill-Door",
+      "initialState": "Typing",
+      "events": [
+        {
+          "eventName": "typing",
+          "type": "continuous"
+        },
+        {
+          "eventName": "drilling",
+          "type": "continuous"
+        },
+        {
+          "eventName": "Door Open",
+          "type": "discrete"
+        },
+        {
+          "eventName": "Door Close",
+          "type": "discrete"
+        }
+      ],
+      "states": [
+        {
+          "stateName": "Typing",
+          "transition": [
+            {
+              "event": "Door Close",
+              "nextState": "Door Close",
+              "direction": "E"
+            },
+            {
+              "event": "Door Open",
+              "nextState": "Door Ajar",
+              "direction": "N"
+            },
+            {
+              "event": "drilling",
+              "nextState": "Drilling",
+              "direction": "W"
+            }
+          ]
+        },
+        {
+          "stateName": "Door Close",
+          "transition": [
+            {
+              "event": "Door Open",
+              "nextState": "Door Ajar",
+              "direction": "NW"
+            },
+            {
+              "event": "typing",
+              "nextState": "Typing",
+              "direction": "W"
+            }
+          ]
+        },
+        {
+          "stateName": "Door Ajar",
+          "transition": [
+            {
+              "event": "Door Close",
+              "nextState": "Door Close",
+              "direction": "SE"
+            }
+          ]
+        },
+        {
+          "stateName": "Drilling",
+          "transition": [
+            {
+              "event": "typing",
+              "nextState": "Typing",
+              "direction": "E"
+            }
+          ]
         }
       ]
     }
